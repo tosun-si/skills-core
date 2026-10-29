@@ -1,0 +1,7 @@
+version: 2
+updates:
+  # Bumps the pinned groupbees/.github workflow in ci.yml.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

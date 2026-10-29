@@ -1,0 +1,32 @@
+<!-- agents-md-manager:start — managed section, do not edit by hand -->
+# {{PROJECT_NAME}} — Project context
+
+> Project-level context for AI coding agents (GitHub Copilot, Claude Code,
+> Cursor…). **Conventions live in the referenced skills; this file only holds what
+> is NOT in a skill and NOT derivable from code.**
+
+## Identity
+
+- **Domain**: {{DOMAIN}}
+- **Project**: {{PROJECT_NAME}}
+- **Purpose**: {{DESCRIPTION}}
+- **Repo layout**: {{REPO_LAYOUT}}
+
+## Conventions — source of truth (referenced, NOT copied)
+
+This repo follows these catalog skills. Change a convention there, not here:
+
+{{APPLIED_SKILLS}}
+<!-- e.g. ingestion-dag-generator — ELT DAG scaffold & templates -->
+<!-- e.g. dag-code-structure   — naming, tags, CI/CD conventions -->
+
+## Project specifics (not in any skill, not derivable from code)
+
+- **Jira**: {{JIRA}}
+- **GCP projects**: dev={{GCP_DEV}} · qua={{GCP_QUA}} · prd={{GCP_PRD}}
+- **Service accounts**: {{SERVICE_ACCOUNTS}}
+- **Non-obvious decisions**: {{DECISIONS}}
+<!-- agents-md-manager:end -->
+
+<!-- Free zone — add durable, project-specific notes below. -->
+<!-- Keep code-derivable facts (structure, deps, schedule) OUT. -->

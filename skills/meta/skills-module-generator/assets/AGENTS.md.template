@@ -1,0 +1,126 @@
+# AGENTS.md — working in {{MODULE_NAME}}
+
+Guidance for any AI assistant (Claude Code, GitHub Copilot, Cursor, Codex, …)
+working **inside this repository**, and the reference for how the catalog is
+consumed. This file is the **single source of truth**: `CLAUDE.md` next to it
+only does `@AGENTS.md`, so Claude Code loads it even when it would otherwise
+skip `AGENTS.md` (a `CLAUDE.local.md` present, an older version, or a session
+that can't read `AGENTS.md`).
+
+## What this repo is
+
+{{MODULE_PURPOSE}} It is the {{VISIBILITY}} `{{MODULE_NAME}}` module of the
+{{CATALOG}}. A skill is a standard
+**Agent Skill** (`SKILL.md`, the [agentskills.io](https://agentskills.io) open
+standard): `skills/<domain>/<name>/SKILL.md` — YAML frontmatter with `name` +
+`description`, then the instructions body — plus the spec's optional `scripts/`, `references/` and `assets/` folders
+(see *Anatomy of a skill*).
+
+The same `SKILL.md` format is read natively by Claude Code, GitHub Copilot and
+Cursor, so there is **one format and one install path**, no per-tool conversion.
+
+## Install: with pollen
+
+Consumers install this module with [pollen](https://github.com/groupbees/pollen),
+per project or machine-wide. How to use pollen — configs, pinning
+(`revision: <sha>  # vX.Y.Z`, no lockfile), commands, errors — lives in the
+**`pollen` skill**, shipped and versioned with pollen (`groupbees/pollen`,
+`path: skills`). Do not restate it here: point to it.
+
+A module ships **no `pollen.yaml`**: that file belongs to consumers. CI
+validates every skill with a throwaway config, and CONTRIBUTING shows how to
+preview a skill the same way before releasing it.
+
+## Modules
+
+{{MODULE_NAME}} is one module among others (`skills-core`, …), each its own repo
+versioned by its git tags. A consumer mixes modules by listing several `repos:` in its
+`pollen.yaml`. Skill names must be **unique across modules**: they deploy
+flat, map to a single `/<name>`, and pollen rejects two sources yielding the
+same name.
+
+## How a skill is used
+
+In every tool: **auto-used** when the prompt matches the skill's `description`
+(progressive disclosure), **or** invoked explicitly with `/<name>`.
+
+## The one rule to remember
+
+**Edit the source, never an installed copy.** Change
+`skills/<domain>/<name>/SKILL.md` here; consumers get it from the next release
+with `pollen update`.
+
+## Design choices
+
+- **Standard `SKILL.md`, nothing tool-specific** — portable across Claude Code,
+  Copilot and Cursor as-is.
+- **Validation in CI**: `.github/workflows/ci.yml` only calls the shared
+  `skills-module` workflow of `groupbees/.github` — change the checks there,
+  not here. Four checks:
+  1. [`skill-validator`](https://github.com/agent-ecosystem/skill-validator)
+     `check --strict` — spec conformance plus what the official validator does
+     not cover: token budgets, broken links, orphan files, description quality.
+  2. `pollen validate` — the catalog deploys the way consumers deploy it.
+  3. `scripts/skills-catalog.sh --check-readme` / `--check-names` — the README
+     table is generated (CI fails if it drifted); leaf names are unique.
+  4. `shellcheck` on every `*.sh`.
+- **No per-skill `README.md`.** The validator flags extra files at a skill root,
+  and duplicated docs rot: the human docs ARE `SKILL.md`.
+
+## Anatomy of a skill (Agent Skills)
+
+Every skill follows the [Agent Skills](https://agentskills.io) layout — one
+required file, three optional folders, nothing else (CI passes
+`allow-dirs: ""`):
+
+```
+skills/<domain>/<name>/
+├── SKILL.md       # Required: frontmatter (name = folder name, description) + instructions
+├── scripts/       # Code the agent runs; only its output enters the context
+├── references/    # Docs the agent reads only when SKILL.md says so
+└── assets/        # Complete files copied into the project, then adapted
+```
+
+| Put it in | When | e.g. |
+|-----------|------|------|
+| `SKILL.md` | Rules and decisions needed every time the skill triggers (keep it under ~500 lines) | non-root user, alpine vs slim |
+| `references/` | Detail needed only in some cases — one topic per file, linked from `SKILL.md` with *when* to read it | one Dockerfile per language |
+| `assets/` | A complete file the output starts from | `Dockerfile`, `ci-cd.yml` |
+| `scripts/` | A deterministic check or action — better run than described | a pre-tag checklist |
+
+Loading is progressive: `name` + `description` always, `SKILL.md` when the
+skill triggers, the folders only on demand. Link every bundled file from
+`SKILL.md` (the validator flags unreferenced files), and keep gotchas in
+`SKILL.md` itself: the agent must see them without looking.
+
+## Before adding a NEW skill — check for overlap
+
+Most skills are added by an AI agent, so the duplicate check is **your** job:
+
+1. **List what already exists** — `scripts/skills-catalog.sh --list` prints every skill's
+   `name` + `description` straight from the `SKILL.md` files. Do **not** rely on
+   the README table for this.
+2. **Compare semantically.** If an existing skill already covers the capability,
+   **extend** it, or **extract a shared skill** both can reference — do not add
+   an overlapping one.
+3. A duplicate **name** is rejected automatically (`--check-names` + CI). Semantic
+   **overlap** is the judgment call this list exists for.
+
+## Adding or changing a skill
+
+1. Create/edit `skills/<domain>/<name>/SKILL.md` — frontmatter is **only** `name`
+   (= folder name) + `description` (it drives both auto-use and the `/` picker).
+   Add `scripts/`, `references/` or `assets/` only when the skill needs them.
+2. Preview it with a throwaway pollen config (CONTRIBUTING, *Preview a skill*).
+3. `scripts/skills-catalog.sh --readme` to regenerate the README table, and commit it.
+4. Commit with the `{{COMMIT_SKILL}}` conventions, open the PR with
+   {{PR_RULE}}, release with `{{RELEASE_SKILL}}`.
+
+## Versioning
+
+Not per-skill. `SKILL.md` carries only `name` + `description`. Versioning is
+**catalog-wide via git tags** (semver `vX.Y.Z`, cut with `{{RELEASE_SKILL}}`), and
+the **GitHub Releases page is the changelog** — no hand-maintained
+`CHANGELOG.md`. Pin a release tag instead of `main` when you need stability.
+
+See `CONTRIBUTING.md` and `README.md` for more.

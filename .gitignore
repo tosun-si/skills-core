@@ -1,0 +1,18 @@
+# JetBrains IDE
+.idea/
+*.iml
+
+# Python / virtual envs
+__pycache__/
+*.py[cod]
+.venv/
+.direnv/
+
+# Node (skill tooling)
+node_modules/
+
+# OS junk
+.DS_Store
+
+# Throwaway pollen configs (CI validation, local preview): modules ship none
+/.pollen-*.yaml

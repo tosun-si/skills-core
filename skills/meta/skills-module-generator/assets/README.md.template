@@ -1,0 +1,50 @@
+# 🐝 {{MODULE_NAME}}
+
+> {{MODULE_DESCRIPTION}} — the `{{MODULE_NAME}}` module of the {{CATALOG}}.
+
+## 🎯 Purpose
+
+This repo is the source of truth for its skills — **one module**, composed
+with others in a consumer's `pollen.yaml`. Each skill is a standard **Agent
+Skill** (`SKILL.md`, the [agentskills.io](https://agentskills.io) open standard),
+read natively by **Claude Code**, **GitHub Copilot** and **Cursor**.
+
+## 🚀 Usage
+
+Install with [pollen](https://github.com/groupbees/pollen): add this module to
+your project's `pollen.yaml` (or to `~/.config/pollen/pollen.yaml` for every
+project, `pollen update -g`), then run `pollen update`.
+
+```yaml
+  - repo: https://github.com/{{GITHUB_OWNER}}/{{MODULE_NAME}}
+    revision: vX.Y.Z   # then `pollen autoupdate --freeze` pins its commit
+    paths:
+      - path: skills
+        recurse: true
+```
+
+Everything else about pollen — pinning, updates, errors — is in its docs and in
+the `pollen` skill it ships (add `groupbees/pollen` with `path: skills`).
+
+## 📋 Skills Catalog
+
+<!-- BEGIN skills-table — auto-generated from skills/*/*/SKILL.md by scripts/skills-catalog.sh --readme; do not edit by hand -->
+<!-- END skills-table -->
+
+> Generated from the skills' `description` fields: `scripts/skills-catalog.sh --readme`.
+
+## ✅ CI
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) calls the shared
+`skills-module` workflow of `groupbees/.github`: `skill-validator check
+--strict`, `pollen validate`, the generated README table, and
+`shellcheck` on every `*.sh`.
+
+## 🏷️ Versioning
+
+Repo-wide git tags (`vX.Y.Z`) cut with `{{RELEASE_SKILL}}`; the GitHub Releases page
+is the changelog.
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).

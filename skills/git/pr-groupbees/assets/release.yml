@@ -1,0 +1,24 @@
+# .github/release.yml — groups the generated GitHub Release notes by PR label.
+# Copy to .github/release.yml; drop the categories the repo does not use and
+# add one label per app under "Factory apps". Labels must exist first:
+# scripts/setup-labels.sh creates them with the GroupBees colors.
+changelog:
+  exclude:
+    labels: [skip-changelog, dependencies]
+  categories:
+    - title: 🚀 Foundation changes
+      labels: [foundation, bootstrap, infra]
+    - title: 🌐 Networking
+      labels: [network, vpc, psa]
+    - title: 🔐 IAM & identity
+      labels: [iam, security, wif]
+    - title: 🏭 Factory apps
+      labels: [factory]
+    - title: 📦 Modules
+      labels: [modules, shared-module]
+    - title: 🐛 Fixes
+      labels: [fix, bug]
+    - title: 📝 Documentation
+      labels: [docs, documentation]
+    - title: Other changes
+      labels: ["*"]

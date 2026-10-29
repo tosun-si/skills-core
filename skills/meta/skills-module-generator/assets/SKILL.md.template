@@ -1,0 +1,20 @@
+---
+name: {{FIRST_SKILL_NAME}}
+description: {{FIRST_SKILL_DESCRIPTION}}
+---
+
+# Skill: {{FIRST_SKILL_TITLE}}
+
+## Context
+
+<!-- What this skill does and when it applies. The frontmatter `description` is
+     what triggers the skill, so make it precise. -->
+
+## Workflow
+
+<!-- The steps the agent should follow. Code goes in scripts/, on-demand docs in
+     references/, files to copy in assets/. -->
+
+## Conventions
+
+<!-- The non-negotiable rules for this skill. -->

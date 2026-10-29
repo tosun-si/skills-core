@@ -1,0 +1,6 @@
+# Normalize line endings to LF for the whole repo. Keeps the auto-generated
+# README table and the shell scripts stable across macOS / Linux / Windows / WSL,
+# and prevents CRLF from tripping `sync-skills.sh --check-readme` in CI.
+* text=auto eol=lf
+*.sh text eol=lf
+*.template text eol=lf

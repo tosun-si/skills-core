@@ -1,0 +1,19 @@
+name: ci
+
+# The CI of every skills module lives in groupbees/.github (skill-validator,
+# pollen validate, README table, unique names, shellcheck). Dependabot bumps
+# the pin below; never copy the jobs here.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  module:
+    uses: groupbees/.github/.github/workflows/skills-module.yml@3b24f02342c0b0b4c5f5231ccaf4a9fd0275a873  # v1.1.0
+    with:
+      allow-dirs: ""   # Agent Skills folders only: scripts/, references/, assets/
