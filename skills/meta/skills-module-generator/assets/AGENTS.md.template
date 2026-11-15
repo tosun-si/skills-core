@@ -54,15 +54,15 @@ with `pollen update`.
 
 - **Standard `SKILL.md`, nothing tool-specific** — portable across Claude Code,
   Copilot and Cursor as-is.
-- **Validation in CI**: `.github/workflows/ci.yml` only calls the shared
-  `skills-module` workflow of `groupbees/.github` — change the checks there,
-  not here. Four checks:
+- **Validation in CI**: `.github/workflows/ci.yml` runs
+  [`groupbees/skill-action`](https://github.com/groupbees/skill-action) for
+  checks 1 and 2 — change them there, not here — then checks 3 and 4:
   1. [`skill-validator`](https://github.com/agent-ecosystem/skill-validator)
      `check --strict` — spec conformance plus what the official validator does
      not cover: token budgets, broken links, orphan files, description quality.
   2. `pollen validate` — the catalog deploys the way consumers deploy it.
-  3. `scripts/skills-catalog.sh --check-readme` / `--check-names` — the README
-     table is generated (CI fails if it drifted); leaf names are unique.
+  3. `scripts/skills-catalog.sh --check-readme` — the README table is
+     generated (CI fails if it drifted). Duplicate leaf names fail check 2.
   4. `shellcheck` on every `*.sh`.
 - **No per-skill `README.md`.** The validator flags extra files at a skill root,
   and duplicated docs rot: the human docs ARE `SKILL.md`.
