@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # Bumps the pinned groupbees/.github workflow in ci.yml.
+  # Bumps the pinned actions in ci.yml (groupbees/skill-action, checkout).
   - package-ecosystem: github-actions
     directory: /
     schedule:

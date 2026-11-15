@@ -1,6 +1,6 @@
 ---
 name: skills-module-generator
-description: Creates a new skills module end to end, in the groupbees org or under a personal account — a repo scaffolded from skills-core (catalog script, CI through the shared groupbees/.github workflow, Dependabot, README/AGENTS/CONTRIBUTING from assets), its first skill, the checks, publication on GitHub (private or public) and the first release. Use when creating a new skills catalog module such as skills-data, a client-specific module, a public open-source one or a personal one.
+description: Creates a new skills module end to end, in the groupbees org or under a personal account — a repo scaffolded from skills-core (catalog script, CI through groupbees/skill-action, Dependabot, README/AGENTS/CONTRIBUTING from assets), its first skill, the checks, publication on GitHub (private or public) and the first release. Use when creating a new skills catalog module such as skills-data, a client-specific module, a public open-source one or a personal one.
 ---
 
 # Skill: Skills Module Generator
@@ -24,7 +24,7 @@ engagement, a domain only some projects need, or conventions that can be public.
 | File | Source |
 |------|--------|
 | `scripts/skills-catalog.sh` (skill list, README table, unique names) | copied verbatim from skills-core |
-| `.github/workflows/ci.yml` (one call to the shared `groupbees/.github` workflow), `.github/dependabot.yml`, `.gitignore`, `.gitattributes`, `CLAUDE.md` | copied verbatim |
+| `.github/workflows/ci.yml` (`groupbees/skill-action` + the README table and shellcheck), `.github/dependabot.yml`, `.gitignore`, `.gitattributes`, `CLAUDE.md` | copied verbatim |
 | `README.md` (with the generated skills table) | [`README.md.template`](assets/README.md.template) |
 | `AGENTS.md` (how the repo works — single source of truth) | [`AGENTS.md.template`](assets/AGENTS.md.template) |
 | `CONTRIBUTING.md` | [`CONTRIBUTING.md.template`](assets/CONTRIBUTING.md.template) |
